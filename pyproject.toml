@@ -1,0 +1,111 @@
+[tool.poetry]
+name = "football_data_analysis"
+version = "0.1.0"
+description = "Football data analysis"
+authors = ["philiprj <philiprj2@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/philiprj/football_analytics"
+keywords = ["football", "AI", "data", "analysis"]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+pandas = ">=2.0, <3.0"
+pyarrow = ">=10.0, <11.0"
+numpy = ">=1.0, <2.0"
+torch = ">=2.0, <2.3"
+torchviz = "*"
+torchvision = "*"
+ray = { version = "*", extras = ["tune"] }
+scikit-learn = ">=1.0, <2.0"
+tqdm = "*"
+beautifulsoup4 = "*"
+statsbombpy = "*"
+shapely = "*"
+shap = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"                   # Testing
+pytest-cov = "*"               # Testing Coverage
+jupyter = "*"                  # Core Jupyter metapackage
+jupyterlab = "*"               # JupyterLab IDE interface
+python-dotenv = "*"            # Load environment variables from .env file
+ruff = "*"                     # Fast linter and formatter (replaces black, isort, flake8)
+matplotlib = "*"               # Plotting
+mypy = "*"                     # Static type checking
+mkdocs = "*"                   # Documentation
+sphinx = "*"                   # Documentation generator
+sphinx-autodoc-typehints = "*" # Type hints for better Sphinx documentation
+pre-commit = "*"               # Pre-commit hooks for running checks automatically
+ipython = "*"                  # Interactive Python shell for experiments
+tox = "*"                      # Test automation across multiple environments
+hypothesis = "*"               # Property-based testing for more robust tests
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+# Select rules to enable
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+    "B", # flake8-bugbear
+    # "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    # "N",  # pep8-naming
+    "W", # pycodestyle warnings
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+lines-after-imports = 2
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=src"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+ignore_errors = true
+omit = ["tests/*", "setup.py"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py311
+isolated_build = True
+
+[testenv]
+deps = pytest
+commands = pytest
+"""
