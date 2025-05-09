@@ -1,0 +1,206 @@
+Pitch and game elements
+.pitch-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* .pitch-container {
+    padding: 10px;
+    background-color: #f8f9fa;
+} */
+
+.pitch {
+    width: 100%;
+    height: 500px;
+    background-color: #7bb369;
+    position: relative;
+    border: 2px solid white;
+    cursor: crosshair;
+    overflow: hidden;
+    background-image: linear-gradient(
+        #7bb369 1px,
+        transparent 1px
+    ),
+    linear-gradient(
+        90deg,
+        #7bb369 1px,
+        #8ec476 1px
+    );
+    background-size: 20px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* .goal {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    width: 4px;
+    height: 20%;
+    background-color: white;
+} */
+
+.goal {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 17.8%; /* 8 yards = ~17.8% of 45 yards pitch width */
+    background-color: white;
+}
+
+.penalty-box {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15%; /* 18 yards = 15% of 120 yards pitch length */
+    height: 53%; /* 44 yards wide box */
+    border: 2px solid white;
+    border-right: none;
+}
+
+/* Six yard box */
+.six-yard-box {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%; /* 6 yards = 5% of 120 yards pitch length */
+    height: 25%; /* 20 yards wide box */
+    border: 2px solid white;
+    border-right: none;
+}
+
+.center-circle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    height: 30%;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* Center line */
+.center-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+}
+
+/* Penalty spot (12 yards from goal line) */
+.penalty-spot {
+    position: absolute;
+    right: 10%; /* 12 yards = 10% of 120 yards pitch length */
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+}
+
+.player {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: move;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+    transition: transform 0.1s;
+}
+
+.player:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.goalkeeper {
+    background-color: #ffc107;
+    color: black;
+}
+
+.defender {
+    background-color: #dc3545;
+}
+
+.shot-marker {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.3);
+    z-index: 10;
+    cursor: move;
+    transition: transform 0.1s;
+}
+
+.shot-marker:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.shot-marker::before {
+    content: "⚽";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: white;
+}
+
+.shot-trajectory {
+    position: absolute;
+    height: 2px;
+    background-color: rgba(13, 110, 253, 0.7);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+/* Custom styling for xG value */
+#xg-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #198754;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .pitch {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pitch {
+        height: 350px;
+    }
+}
+
+@media (max-width: 576px) {
+    .pitch {
+        height: 300px;
+    }
+}

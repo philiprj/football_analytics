@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xG Prediction Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">xG Prediction Tool</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <!-- Left column - Pitch and About xG -->
+            <div class="col-lg-8">
+                <!-- Football Pitch -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Football Pitch</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="pitch-container">
+                            <div id="pitch" class="pitch">
+                                <div class="goal"></div>
+                                <div class="penalty-box"></div>
+                                <div class="six-yard-box"></div>
+                                <div class="center-circle"></div>
+                                <div class="center-line"></div>
+                                <div class="penalty-spot"></div>
+                                <div id="shot-marker" class="shot-marker hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <small class="text-muted">Drag the shot marker (⚽) to position your shot. Add and position defenders and goalkeeper.</small>
+                    </div>
+                </div>
+
+                <!-- About xG - Moved here from bottom -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">About xG</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Expected Goals (xG) is a statistical measure in football that represents the probability of a shot resulting in a goal. It takes into account various factors such as:</p>
+                        <ul>
+                            <li>Distance from goal</li>
+                            <li>Angle to goal</li>
+                            <li>Body part used</li>
+                            <li>Type of assist</li>
+                            <li>Proximity of defenders</li>
+                            <li>Goalkeeper position</li>
+                        </ul>
+                        <p>This tool allows you to simulate different shot scenarios and see how they affect the xG value.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column - Controls and Results -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Player Controls</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button id="add-defender" class="btn btn-outline-danger">
+                                <i class="bi bi-person-plus-fill"></i> Add Defender
+                            </button>
+                            <button id="add-goalkeeper" class="btn btn-outline-warning">
+                                <i class="bi bi-person-plus-fill"></i> Add Goalkeeper
+                            </button>
+                            <button id="clear-players" class="btn btn-outline-secondary">
+                                <i class="bi bi-trash"></i> Clear Players
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Shot Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="shot-body-part" class="form-label">Shot Body Part</label>
+                            <select id="shot-body-part" class="form-select">
+                                <option value="Right Foot">Right Foot</option>
+                                <option value="Left Foot">Left Foot</option>
+                                <option value="Head">Head</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="shot-type" class="form-label">Shot Type</label>
+                            <select id="shot-type" class="form-select">
+                                <option value="Open Play">Open Play</option>
+                                <option value="Free Kick">Free Kick</option>
+                                <option value="Penalty">Penalty</option>
+                                <option value="Corner">Corner</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="shot-technique" class="form-label">Shot Technique</label>
+                            <select id="shot-technique" class="form-select">
+                                <option value="Normal">Normal</option>
+                                <option value="Volley">Volley</option>
+                                <option value="Lob">Lob</option>
+                                <option value="Backheel">Backheel</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="game-period" class="form-label">Game Period</label>
+                            <select class="form-select" id="game-period">
+                                <option value="First Half">First Half</option>
+                                <option value="Second Half">Second Half</option>
+                                <option value="Extra Time 1">Extra Time 1</option>
+                                <option value="Extra Time 2">Extra Time 2</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="one-on-one">
+                                <label class="form-check-label" for="one-on-one">One on One</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="under-pressure">
+                                <label class="form-check-label" for="under-pressure">Under Pressure</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="first-time">
+                                <label class="form-check-label" for="first-time">First Time Shot</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body text-center">
+                        <button id="calculate-xg" class="btn btn-primary btn-lg w-100">
+                            Calculate xG
+                        </button>
+
+                        <div id="result" class="mt-4 hidden">
+                            <h5 class="text-muted">Expected Goals (xG)</h5>
+                            <div id="xg-value" class="display-4 fw-bold text-success">0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">xG Prediction Tool &copy; 2023</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
+</body>
+</html>

@@ -27,6 +27,12 @@ beautifulsoup4 = "*"
 statsbombpy = "*"
 shapely = "*"
 shap = "*"
+seaborn = "*"
+xgboost = "*"
+fastapi = { version = "*", extras = ["standard"] }
+pydantic = "*"
+jinja2 = "*"
+python-multipart = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"                   # Testing
