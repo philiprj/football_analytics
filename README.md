@@ -2,6 +2,8 @@
 
 Football analytics (xG model, score predictions) using data from [statsbomb](https://github.com/statsbomb/open-data).
 
+You can play with the xG model [here](https://xg-model-predictor.onrender.com/).
+
 ## Setup
 
 Ensure you have Python 3.10 installed. You can install it using [pyenv](https://github.com/pyenv/pyenv).
@@ -32,18 +34,30 @@ For this project, we can start with their free dataset, which includes competiti
 
 ## xG model
 
-Our xG model uses the following features:
+We use a XGBoost model to predict the probability of a shot being successful.
 
-![SHAP summary plot](notebooks/shap_summary_plot.png)
+![Feature importance](static/img/feature_importance.png)
 
-We use a multi-layer perceptron (MLP) model to predict the probability of a shot being successful.
+![SHAP summary plot](static/img/shap_summary.png)
 
-## Score predictions
+### Training
 
-We run a score prediction model using the xG model as the base model, by summing the xG of all shots for each team. Using this approach we calculate the final score of the champions league final between AC Milan and Liverpool.
+We train the XGBoost model using the following after a grid search for the best hyperparameters. We compare the model's performance with a Logistic Regression model and the baseline Statsbomb xG model.
 
-AC Milan: 2.75 xG, Liverpool: 1.41 xG
+![Model comparison](static/img/roc_curve.png)
+
+### Individual shots
+
+We can also look at the contribution of each feature to the model's prediction for a specific shot.
+
+![SHAP contribution](static/img/shap_example.png)
 
 ## Model calibration
 
-We use the [CalibratedClassifierCV](https://scikit-learn.org/stable/modules/calibration.html#calibration) class from scikit-learn to calibrate our model. In the end our initial model is highly calibrated already.
+We use plot the calibration curve of our model to check if it is well calibrated.
+
+![Calibration curve](static/img/callibration_plot.png)
+
+## Deployment
+
+We deploy the model using FastAPI and deploy it on Render. The frontend is a simple HTML page that allows you to play with the model, using JavaScript to send the data to the backend and display the results.
