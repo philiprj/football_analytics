@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pitch = document.getElementById('pitch');
     const shotMarker = document.getElementById('shot-marker');
     const addDefenderBtn = document.getElementById('add-defender');
-    const addGoalkeeperBtn = document.getElementById('add-goalkeeper');
+    const toggleGoalkeeperBtn = document.getElementById('add-goalkeeper'); // We'll rename this in the code but keep the ID
     const clearPlayersBtn = document.getElementById('clear-players');
     const calculateXgBtn = document.getElementById('calculate-xg');
     const resultDiv = document.getElementById('result');
@@ -179,18 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addPlayer('defender');
     });
 
-    // Add goalkeeper
-    // addGoalkeeperBtn.addEventListener('click', function() {
-    //     // Remove existing goalkeepers
-    //     const existingGk = players.find(p => p.position === 'Goalkeeper');
-    //     if (existingGk) {
-    //         pitch.removeChild(existingGk.element);
-    //         players = players.filter(p => p !== existingGk);
-    //     }
-
-    //     addPlayer('goalkeeper');
-    // });
-
     // Toggle goalkeeper (add/remove)
     toggleGoalkeeperBtn.addEventListener('click', function() {
         const existingGk = players.find(p => p.position === 'Goalkeeper');
@@ -213,6 +201,9 @@ document.addEventListener('DOMContentLoaded', function() {
             pitch.removeChild(player.element);
         });
         players = [];
+
+        // Update goalkeeper button text
+        toggleGoalkeeperBtn.textContent = 'Add Goalkeeper';
     });
 
     // Calculate xG
