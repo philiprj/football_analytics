@@ -1,9 +1,13 @@
+from pathlib import Path
+
 import joblib
 import numpy as np
 import pandas as pd
 
 
-feature_columns = joblib.load("../models/feature_columns2.joblib")
+current_dir = Path(__file__).parent
+feature_columns_path = current_dir.parent / "models" / "feature_columns2.joblib"
+feature_columns = joblib.load(feature_columns_path)
 
 
 def calculate_distance_angle(x, y):

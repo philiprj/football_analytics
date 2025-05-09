@@ -33,6 +33,7 @@ fastapi = { version = "*", extras = ["standard"] }
 pydantic = "*"
 jinja2 = "*"
 python-multipart = "*"
+uvicorn = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"                   # Testing

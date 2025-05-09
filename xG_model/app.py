@@ -1,4 +1,7 @@
 # app.py (using FastAPI)
+import os
+from pathlib import Path
+
 import xgboost as xgb
 
 # Add these imports at the top
@@ -24,10 +27,13 @@ def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-# Load model and feature columns
-
+# Load model
+# Get the directory of the current file
+current_dir = Path(__file__).parent
+# Construct path to model file
+model_path = current_dir.parent / "models" / "xgboost_xg_model2.joblib"
 model = xgb.XGBClassifier()
-model.load_model("../models/xgboost_xg_model2.joblib")
+model.load_model(str(model_path))
 
 
 class PlayerPosition(BaseModel):
@@ -89,3 +95,11 @@ def predict_xg(shot: ShotInput):
         "xG": float(xg_prediction),
         "features": features,  # Include the derived features in the response
     }
+
+
+# Add this at the end of the file
+if __name__ == "__main__":
+    import uvicorn
+
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("xG_model.app:app", host="0.0.0.0", port=port, reload=True)
